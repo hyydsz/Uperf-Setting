@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Uperf</string>
+
+    <string name="module_name">模块名称: %s</string>
+    <string name="module_author">模块作者: %s</string>
+    <string name="module_version">模块版本: %s</string>
+
+    <string name="auto">动态</string>
+    <string name="powersave">省电</string>
+    <string name="balance">均衡</string>
+    <string name="performance">性能</string>
+    <string name="fast">极速</string>
+
+    <string name="system_mode">全局性能模式</string>
+    <string name="normal_mode">亮屏性能模式</string>
+    <string name="standby_mode">待机性能模式</string>
+
+    <string name="has_been_started">已启动</string>
+
+    <string name="log_setting">管理日志</string>
+    <string name="look_log">查看日志</string>
+
+    <string name="powersave_mode">省电模式</string>
+    <string name="balance_mode">均衡模式</string>
+    <string name="performance_mode">性能模式</string>
+    <string name="fast_mode">极速模式</string>
+    <string name="system_normal_mode">全局默认</string>
+
+    <string name="all">全部</string>
+    <string name="user">用户</string>
+    <string name="system">系统</string>
+
+    <string name="uperf_settings">Uperf Settings</string>
+    <string name="uperf_app_settings">Uperf App Settings</string>
+    <string name="uperf_power_settings">Uperf Power Settings</string>
+
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+</resources>

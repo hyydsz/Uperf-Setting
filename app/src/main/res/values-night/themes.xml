@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.UperfSetting" parent="Base.Theme.UperfSetting">
+
+        <item name="android:textColor">@android:color/white</item>
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryVariant">@android:color/black</item>
+
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@android:color/white</item>
+        <item name="colorSecondaryVariant">@android:color/white</item>
+
+        <item name="colorOnSecondary">@android:color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="mode_menu_color" parent="base_mode_menu_color">
+        <item name="tabSelectedTextColor">@android:color/black</item>
+        <item name="tabTextColor" >@android:color/white</item>
+        <item name="tabIndicatorColor">@android:color/white</item>
+    </style>
+
+    <style name="bottom_logger">
+        <item name="android:background">@drawable/bottom_logger_round_night</item>
+    </style>
+</resources>

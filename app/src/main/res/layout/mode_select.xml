@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/mode_select_radio_group"
+
+        android:layout_margin="15sp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:checkedButton="@id/normal_button"
+
+        android:layout_gravity="center_horizontal">
+
+        <RadioButton
+            android:id="@+id/normal_button"
+
+            android:layout_marginBottom="10sp"
+
+            android:tag="normal"
+
+            android:textStyle="bold"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/system_normal_mode"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:layout_marginBottom="10sp"
+
+            android:tag="powersave"
+
+            android:textStyle="bold"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/powersave_mode"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:layout_marginBottom="10sp"
+
+            android:tag="balance"
+
+            android:textStyle="bold"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/balance_mode"
+            android:textSize="15sp"/>
+
+        <RadioButton
+            android:layout_marginBottom="10sp"
+
+            android:tag="performance"
+
+            android:textStyle="bold"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/performance_mode"
+            android:textSize="15sp"/>
+
+        <RadioButton
+            android:tag="fast"
+
+            android:textStyle="bold"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fast_mode"
+            android:textSize="15sp"/>
+
+    </RadioGroup>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:columnCount="2"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/mode_select_cancel"
+
+            android:layout_margin="10sp"
+
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+
+            android:layout_marginEnd="15sp"
+
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+
+            android:textColor="@android:color/white"
+
+            android:background="@drawable/round_button"/>
+
+        <Button
+            android:id="@+id/mode_select_ok"
+
+            android:layout_margin="10sp"
+
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+
+            android:textColor="@android:color/white"
+
+            android:background="@drawable/round_button"/>
+
+    </GridLayout>
+
+</LinearLayout>

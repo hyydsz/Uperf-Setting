@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_theme_color">#2196F3</color>
+
+    <color name="powersave_color">#FF506496</color>
+    <color name="balance_color">#FF50C8C8</color>
+    <color name="performance_color">#FF6496FA</color>
+    <color name="fast_color">#FFFA5050</color>
+    <color name="system_normal_color">#008C6C</color>
+</resources>

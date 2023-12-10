@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/app_refresh"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
+
+            android:layout_marginTop="20sp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:cardElevation="3sp"
+            app:cardCornerRadius="15sp"
+            android:translationZ="4sp">
+
+            <GridLayout
+                android:layout_marginStart="10sp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:columnCount="3"
+
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/package_search"
+
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+
+                    android:backgroundTint="@color/main_theme_color"
+
+                    android:layout_height="wrap_content"
+                    android:autofillHints="" />
+
+                <Spinner
+                    android:id="@+id/package_type"
+
+                    android:layout_column="1"
+
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown" />
+
+                <Spinner
+                    android:id="@+id/mode_type"
+
+                    android:layout_column="2"
+
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown" />
+
+            </GridLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
+
+            android:layout_marginTop="10sp"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:cardElevation="3sp"
+            app:cardCornerRadius="15sp"
+            android:translationZ="4sp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_margin="10sp"
+
+                android:id="@+id/app_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
