@@ -103,7 +103,7 @@ public class Setting extends Fragment {
                     return;
                 }
 
-                handler.post(() -> {
+                handler.postDelayed(() -> {
                     Power[] powers = new Power[] {
                             new Power(view.getContext(), ModeString.ModeType.powersave),
                             new Power(view.getContext(), ModeString.ModeType.balance),
@@ -113,7 +113,7 @@ public class Setting extends Fragment {
 
                     recyclerView.setAdapter(new PowerAdapter(powers));
                     refreshLayout.setRefreshing(false);
-                });
+                }, 100);
             }
         }.start();
     }
