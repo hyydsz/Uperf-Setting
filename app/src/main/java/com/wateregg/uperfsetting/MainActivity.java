@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         String[] names = { getString(R.string.uperf_settings), getString(R.string.uperf_app_settings), getString(R.string.uperf_power_settings) };
         int[] icons = { R.mipmap.home, R.mipmap.app, R.mipmap.setting };
 
-        viewPager2.setOffscreenPageLimit(2);
+        viewPager2.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         viewPager2.setAdapter(new FragmentStateAdapter(getSupportFragmentManager(), getLifecycle()) {
             @NonNull
             @Override

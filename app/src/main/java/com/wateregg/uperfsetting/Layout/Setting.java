@@ -90,9 +90,12 @@ public class Setting extends Fragment {
                     CPUSettingJson = new JSONObject(sb.toString());
 
                 } catch (IOException | JSONException e) {
+
                     CPUSettingJson = null;
 
                     handler.post(() -> {
+                        refreshLayout.setRefreshing(false);
+
                         ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
                         toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
                     });
@@ -100,14 +103,14 @@ public class Setting extends Fragment {
                     return;
                 }
 
-                Power[] powers = new Power[] {
-                        new Power(view.getContext(), ModeString.ModeType.powersave),
-                        new Power(view.getContext(), ModeString.ModeType.balance),
-                        new Power(view.getContext(), ModeString.ModeType.performance),
-                        new Power(view.getContext(), ModeString.ModeType.fast)
-                };
-
                 handler.post(() -> {
+                    Power[] powers = new Power[] {
+                            new Power(view.getContext(), ModeString.ModeType.powersave),
+                            new Power(view.getContext(), ModeString.ModeType.balance),
+                            new Power(view.getContext(), ModeString.ModeType.performance),
+                            new Power(view.getContext(), ModeString.ModeType.fast)
+                    };
+
                     recyclerView.setAdapter(new PowerAdapter(powers));
                     refreshLayout.setRefreshing(false);
                 });
@@ -140,6 +143,8 @@ public class Setting extends Fragment {
             Power power = powers.get(position);
 
             holder.power_mode_name.setText(power.power_mode_name);
+
+            if (CPUSettingJson == null) return;
 
             power_load(holder, power.power_type);
 
