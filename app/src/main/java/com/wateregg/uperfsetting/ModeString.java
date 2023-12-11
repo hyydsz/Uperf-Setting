@@ -12,6 +12,8 @@ public class ModeString {
     public static JSONObject uperf_json;
     public static PowerMode powerMode;
 
+    public static boolean Module_Enable = false;
+
     public final static String AUTO = "auto";
     public final static String POWERSAVE = "powersave";
     public final static String BALANCE = "balance";
@@ -37,7 +39,7 @@ public class ModeString {
                 return 4;
 
             default:
-                return 2;
+                return -1;
         }
     };
 }

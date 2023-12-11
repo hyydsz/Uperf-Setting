@@ -16,6 +16,7 @@
     <string name="standby_mode">待机性能模式</string>
 
     <string name="has_been_started">已启动</string>
+    <string name="not_started">未启动</string>
 
     <string name="log_setting">管理日志</string>
     <string name="look_log">查看日志</string>
@@ -36,4 +37,10 @@
 
     <string name="cancel">取消</string>
     <string name="ok">确定</string>
+
+    <string name="read_file_fail">读取配置文件失败</string>
+    <string name="write_file_fail">写入配置文件失败</string>
+    <string name="read_log_file_fail">读取日志文件失败</string>
+
+    <string name="cannot_open_app_setting">其它功能需要安装模块后才能使用</string>
 </resources>

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,12 +51,8 @@ public class BottomLogger extends BottomSheetDialogFragment {
     }
 
     private void refresh_logger(View view) {
-        try {
-            File file = new File(ModeString.uperf_last_path, ModeString.UPERF_LOG);
-            FileReader fileReader = new FileReader(file);
-
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
+        File file = new File(ModeString.uperf_last_path, ModeString.UPERF_LOG);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             List<Logger> loggers = new ArrayList<>();
 
             String line;
@@ -76,9 +71,10 @@ public class BottomLogger extends BottomSheetDialogFragment {
 
             RecyclerView recyclerView = view.findViewById(R.id.logger_list);
             recyclerView.setAdapter(new LoggerAdapter(loggers));
-
-        } catch (IOException ignore) {
-            Toast.makeText(view.getContext(), "获取日志信息失败", Toast.LENGTH_LONG).show();
+        }
+        catch (IOException ignore) {
+            ToastDialog toastDialog = new ToastDialog(getString(R.string.read_log_file_fail));
+            toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
         }
     }
 
@@ -102,7 +98,7 @@ public class BottomLogger extends BottomSheetDialogFragment {
         return height - height / 5;
     }
 
-    private class LoggerAdapter extends RecyclerView.Adapter<LoggerAdapter.ViewHolder> {
+    private static class LoggerAdapter extends RecyclerView.Adapter<LoggerAdapter.ViewHolder> {
 
         public List<Logger> loggers;
 
@@ -129,7 +125,7 @@ public class BottomLogger extends BottomSheetDialogFragment {
             return loggers.size();
         }
 
-        private class ViewHolder extends RecyclerView.ViewHolder {
+        private static class ViewHolder extends RecyclerView.ViewHolder {
             public TextView logger_message;
             public TextView logger_time;
 
@@ -142,7 +138,7 @@ public class BottomLogger extends BottomSheetDialogFragment {
         }
     }
 
-    private class Logger {
+    private static class Logger {
         public String time;
         public String message;
     }

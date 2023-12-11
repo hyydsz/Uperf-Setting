@@ -94,8 +94,6 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
 
-            android:layout_marginEnd="15sp"
-
             android:layout_height="wrap_content"
             android:text="@string/cancel"
 

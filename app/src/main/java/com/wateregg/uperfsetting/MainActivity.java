@@ -1,8 +1,10 @@
 package com.wateregg.uperfsetting;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
@@ -12,36 +14,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentFactory;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.wateregg.uperfsetting.Dialog.ToastDialog;
 import com.wateregg.uperfsetting.Layout.AppSettings;
 import com.wateregg.uperfsetting.Layout.Home;
 import com.wateregg.uperfsetting.Layout.Setting;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class MainActivity extends AppCompatActivity {
     public final static int STORAGE_REQUEST_CODE = 1;
+    public final String[] Read_Write_Permissions = new String[] {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
 
     private TabLayoutMediator tabLayoutMediator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        if (json_handle()) {
+        ModeString.powerMode = new PowerMode();
+        ModeString.Module_Enable = ModeString.powerMode.json_handle();
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R)
+        {
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.setData(Uri.parse("package:" + this.getPackageName()));
@@ -49,9 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
                 return;
             }
-
-            start_init();
         }
+        else
+        {
+            if (checkSelfPermission(Read_Write_Permissions[0]) != PackageManager.PERMISSION_GRANTED
+            || checkSelfPermission(Read_Write_Permissions[1]) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(Read_Write_Permissions, STORAGE_REQUEST_CODE);
+
+                return;
+            }
+        }
+
+        start_init();
     }
 
     @Override
@@ -64,22 +75,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start_init() {
+
         setContentView(R.layout.navigation_menu);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager2 viewPager2 = findViewById(R.id.container);
 
-        String[] classes = { Home.class.getName(), AppSettings.class.getName(), Setting.class.getName()};
-        String[] names = { getString(R.string.uperf_settings), getString(R.string.uperf_app_settings), getString(R.string.uperf_power_settings)};
+        Class[] classes = { Home.class, AppSettings.class, Setting.class};
+        String[] names = { getString(R.string.uperf_settings), getString(R.string.uperf_app_settings), getString(R.string.uperf_power_settings) };
         int[] icons = { R.mipmap.home, R.mipmap.app, R.mipmap.setting };
 
         viewPager2.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-
         viewPager2.setAdapter(new FragmentStateAdapter(getSupportFragmentManager(), getLifecycle()) {
             @NonNull
             @Override
             public Fragment createFragment(int position) {
-                return Fragment.instantiate(MainActivity.this, classes[position]);
+                try {
+                    return FragmentFactory.loadFragmentClass(classes[position].getClassLoader(), classes[position].getName()).newInstance();
+                } catch (IllegalAccessException | InstantiationException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override
@@ -95,8 +110,19 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                TextView textView = findViewById(R.id.title_view);
-                textView.setText(names[tab.getPosition()]);
+                if (ModeString.Module_Enable) {
+                    TextView textView = findViewById(R.id.title_view);
+                    textView.setText(names[tab.getPosition()]);
+
+                    return;
+                }
+
+                if (tab.getPosition() == 1 || tab.getPosition() == 2) {
+                    tabLayout.selectTab(tabLayout.getTabAt(0));
+
+                    ToastDialog toastDialog = new ToastDialog(getString(R.string.cannot_open_app_setting));
+                    toastDialog.show(getSupportFragmentManager(), toastDialog.getTag());
+                }
             }
 
             @Override
@@ -111,53 +137,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tabLayoutMediator.attach();
-    }
-
-    public boolean json_handle()  {
-        String string_json = getFileDataByRoot(ModeString.POWERCFG);
-        if (string_json != null) {
-            try {
-                ModeString.uperf_json = new JSONObject(string_json);
-
-                ModeString.uperf_state_path = ModeString.uperf_json.getString("state");
-                ModeString.uperf_last_path = new File(ModeString.uperf_state_path).getParent();
-
-                return true;
-            }
-            catch (JSONException ignored) { }
-        }
-
-        return false;
-    }
-
-    public String getFileDataByRoot(String path) {
-        try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("cat " + path + "\n");
-            os.writeBytes("exit 0\n");
-            os.flush();
-
-            process.waitFor();
-
-            os.close();
-
-            if (process.exitValue() == 0) {
-                InputStreamReader input = new InputStreamReader(process.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(input);
-
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                return builder.toString();
-            }
-
-        } catch (IOException | InterruptedException ignore) { }
-
-        return null;
     }
 
     @Override
