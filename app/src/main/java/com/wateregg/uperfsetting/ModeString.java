@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 public class ModeString {
     public final static String POWERCFG = "/data/powercfg.json";
+    public final static String UPERF_JSON = "uperf.json";
     public final static String PERAPP_POWERMODE = "perapp_powermode.txt";
     public final static String UPERF_LOG = "uperf_log.txt";
 
@@ -14,32 +15,35 @@ public class ModeString {
 
     public static boolean Module_Enable = false;
 
-    public final static String AUTO = "auto";
-    public final static String POWERSAVE = "powersave";
-    public final static String BALANCE = "balance";
-    public final static String PERFORMANCE = "performance";
-    public final static String FAST = "fast";
-    public final static String SYSTEM_NORMAL = "system_normal";
+    // 这个需要跟App设置的五个模式顺序一样
+    public enum ModeType {
+        system_normal,
+        powersave,
+        balance,
+        performance,
+        fast,
+        auto,
+    }
 
-    public static int FromModeToIndex(String current_mode) {
+    public static int FromModeToIndex(ModeType current_mode) {
         switch (current_mode) {
-            case ModeString.AUTO:
+            case auto:
                 return 0;
 
-            case ModeString.POWERSAVE:
+            case powersave:
                 return 1;
 
-            case ModeString.BALANCE:
+            case balance:
                 return 2;
 
-            case ModeString.PERFORMANCE:
+            case performance:
                 return 3;
 
-            case ModeString.FAST:
+            case fast:
                 return 4;
 
             default:
                 return -1;
         }
-    };
+    }
 }

@@ -17,9 +17,9 @@ import java.util.HashMap;
 public class PowerMode {
     public HashMap<String, String> appModes = new HashMap<>();
 
-    public String DefaultMode;
-    public String OffScreenMode;
-    public String SystemMode;
+    public ModeString.ModeType DefaultMode;
+    public ModeString.ModeType OffScreenMode;
+    public ModeString.ModeType SystemMode;
 
     public boolean ReadFile(String path, String name) {
         if (ModeString.Module_Enable) {
@@ -27,11 +27,14 @@ public class PowerMode {
 
             File file = new File(ModeString.uperf_state_path);
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-                SystemMode = bufferedReader.readLine();
 
-                if (SystemMode == null) {
-                    SystemMode = ModeString.BALANCE;
+                try {
+                    SystemMode = ModeString.ModeType.valueOf(bufferedReader.readLine());
                 }
+                catch (IllegalArgumentException ignore) {
+                    SystemMode = ModeString.ModeType.balance;
+                }
+
             }
             catch (IOException ignore) {
                 return false;
@@ -44,10 +47,22 @@ public class PowerMode {
                     if (line.startsWith("#")) continue;
 
                     if (line.startsWith("*")) {
-                        DefaultMode = line.substring(2);
+                        try {
+                            DefaultMode = ModeString.ModeType.valueOf(line.substring(2));
+                        }
+                        catch (IllegalArgumentException ignore) {
+                            DefaultMode = ModeString.ModeType.balance;
+                        }
+
                     }
                     else if (line.startsWith("-")) {
-                        OffScreenMode = line.substring(2);
+                        try {
+                            OffScreenMode = ModeString.ModeType.valueOf(line.substring(2));
+                        }
+                        catch (IllegalArgumentException ignore) {
+                            OffScreenMode = ModeString.ModeType.balance;
+                        }
+
                     }
                     else {
                         String[] strings = line.split(" ", 2);
@@ -62,24 +77,6 @@ public class PowerMode {
             catch (IOException ignore) {
                 return false;
             }
-
-            boolean fix_mode = false;
-
-            if (DefaultMode == null) {
-                DefaultMode = ModeString.BALANCE;
-
-                fix_mode = true;
-            }
-
-            if (OffScreenMode == null) {
-                OffScreenMode = ModeString.BALANCE;
-
-                fix_mode = true;
-            }
-
-            if (fix_mode) {
-                WriteFile(path, name);
-            }
         }
 
         return true;
@@ -89,7 +86,7 @@ public class PowerMode {
         if (ModeString.Module_Enable) {
             File file = new File(ModeString.uperf_state_path);
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
-                bufferedWriter.write(SystemMode);
+                bufferedWriter.write(SystemMode.name());
                 bufferedWriter.flush();
             }
             catch (FileNotFoundException ignore) {

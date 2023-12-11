@@ -145,11 +145,11 @@ public class AppSettings extends Fragment {
 
                     Intent launchIntent = pm.getLaunchIntentForPackage(info.packageName);
 
-                    app.mode = ModeString.SYSTEM_NORMAL;
+                    app.mode = ModeString.ModeType.system_normal;
 
                     String mode = ModeString.powerMode.appModes.getOrDefault(info.packageName, null);
                     if (mode != null) {
-                        app.mode = mode;
+                        app.mode = ModeString.ModeType.valueOf(mode);
                     }
 
                     app.system_app = (info.flags & ApplicationInfo.FLAG_SYSTEM) != 0 || (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0 || launchIntent == null;
@@ -165,23 +165,23 @@ public class AppSettings extends Fragment {
 
                     switch (mode_filter_type) {
                         case 1:
-                            if (!ModeString.SYSTEM_NORMAL.equals(app.mode)) continue;
+                            if (ModeString.ModeType.system_normal != app.mode) continue;
                             break;
 
                         case 2:
-                            if (!ModeString.POWERSAVE.equals(app.mode)) continue;
+                            if (ModeString.ModeType.powersave != app.mode) continue;
                             break;
 
                         case 3:
-                            if (!ModeString.BALANCE.equals(app.mode)) continue;
+                            if (ModeString.ModeType.balance != app.mode) continue;
                             break;
 
                         case 4:
-                            if (!ModeString.PERFORMANCE.equals(app.mode)) continue;
+                            if (ModeString.ModeType.performance != app.mode) continue;
                             break;
 
                         case 5:
-                            if (!ModeString.FAST.equals(app.mode)) continue;
+                            if (ModeString.ModeType.fast != app.mode) continue;
                             break;
                     }
 
@@ -192,7 +192,6 @@ public class AppSettings extends Fragment {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(() -> {
                     recyclerView.setAdapter(new AppAdapter(view.getContext(), apps));
-
                     refreshLayout.setRefreshing(false);
                 });
             }
@@ -240,27 +239,27 @@ public class AppSettings extends Fragment {
             holder.app_name.setText(app.name);
 
             switch (app.mode) {
-                case ModeString.POWERSAVE:
+                case powersave:
                     holder.app_mode.setText(context.getString(R.string.powersave_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.powersave_color));
                     break;
 
-                case ModeString.BALANCE:
+                case balance:
                     holder.app_mode.setText(context.getString(R.string.balance_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.balance_color));
                     break;
 
-                case ModeString.PERFORMANCE:
+                case performance:
                     holder.app_mode.setText(context.getString(R.string.performance_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.performance_color));
                     break;
 
-                case ModeString.FAST:
+                case fast:
                     holder.app_mode.setText(context.getString(R.string.fast_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.fast_color));
                     break;
 
-                case ModeString.SYSTEM_NORMAL:
+                case system_normal:
                     holder.app_mode.setText(context.getString(R.string.system_normal_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.system_normal_color));
                     break;
@@ -296,7 +295,7 @@ public class AppSettings extends Fragment {
         public Drawable icon;
         public String package_name;
         public String name;
-        public String mode;
+        public ModeString.ModeType mode;
         public boolean system_app;
     }
 }

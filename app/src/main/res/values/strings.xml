@@ -27,6 +27,12 @@
     <string name="fast_mode">极速模式</string>
     <string name="system_normal_mode">全局默认</string>
 
+    <string name="latencyTime">升频延迟(ms)</string>
+    <string name="slowLimitPower">CPU长期功耗(w)</string>
+    <string name="fastLimitPower">CPU短期功耗(w)</string>
+    <string name="fastLimitCapacity">CPU短期功耗限制容量(ws)</string>
+    <string name="cpu_margin">CPU性能余量(%)</string>
+
     <string name="all">全部</string>
     <string name="user">用户</string>
     <string name="system">系统</string>
@@ -43,4 +49,9 @@
     <string name="read_log_file_fail">读取日志文件失败</string>
 
     <string name="cannot_open_app_setting">其它功能需要安装模块后才能使用</string>
+
+    <string name="unit_ms">%.0f ms</string>
+    <string name="unit_power">%.1f w</string>
+    <string name="unit_percent">%.0f %%</string>
+    <string name="unit_power_s">%.0f ws</string>
 </resources>

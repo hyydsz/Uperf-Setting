@@ -32,6 +32,7 @@ public class ModeSelect extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mode_select, container, false);
+
         Button cancel = view.findViewById(R.id.mode_select_cancel);
         Button ok = view.findViewById(R.id.mode_select_ok);
 
@@ -39,42 +40,47 @@ public class ModeSelect extends DialogFragment {
             if (getDialog() != null) getDialog().cancel();
         });
 
+        RadioGroup radioGroup = view.findViewById(R.id.mode_select_radio_group);
+        for (int i = 0;i < radioGroup.getChildCount();i++) {
+            RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
+            radioButton.setTag(ModeString.ModeType.values()[i]);
+        }
+
         ok.setOnClickListener(v -> {
-            RadioGroup radioGroup = view.findViewById(R.id.mode_select_radio_group);
             RadioButton radioButton = view.findViewById(radioGroup.getCheckedRadioButtonId());
 
-            String mode = radioButton.getTag().toString();
+            ModeString.ModeType mode = (ModeString.ModeType) radioButton.getTag();
 
             switch (mode) {
-                case ModeString.POWERSAVE:
+                case powersave:
                     mode_textview.setText(view.getContext().getString(R.string.powersave_mode));
                     mode_textview.setTextColor(view.getContext().getColor(R.color.powersave_color));
 
-                    ModeString.powerMode.appModes.put(package_name, mode);
+                    ModeString.powerMode.appModes.put(package_name, mode.name());
                     break;
 
-                case ModeString.BALANCE:
+                case balance:
                     mode_textview.setText(view.getContext().getString(R.string.balance_mode));
                     mode_textview.setTextColor(view.getContext().getColor(R.color.balance_color));
 
-                    ModeString.powerMode.appModes.put(package_name, mode);
+                    ModeString.powerMode.appModes.put(package_name, mode.name());
                     break;
 
-                case ModeString.PERFORMANCE:
+                case performance:
                     mode_textview.setText(view.getContext().getString(R.string.performance_mode));
                     mode_textview.setTextColor(view.getContext().getColor(R.color.performance_color));
 
-                    ModeString.powerMode.appModes.put(package_name, mode);
+                    ModeString.powerMode.appModes.put(package_name, mode.name());
                     break;
 
-                case ModeString.FAST:
+                case fast:
                     mode_textview.setText(view.getContext().getString(R.string.fast_mode));
                     mode_textview.setTextColor(view.getContext().getColor(R.color.fast_color));
 
-                    ModeString.powerMode.appModes.put(package_name, mode);
+                    ModeString.powerMode.appModes.put(package_name, mode.name());
                     break;
 
-                default:
+                case system_normal:
                     mode_textview.setText(view.getContext().getString(R.string.system_normal_mode));
                     mode_textview.setTextColor(view.getContext().getColor(R.color.system_normal_color));
 

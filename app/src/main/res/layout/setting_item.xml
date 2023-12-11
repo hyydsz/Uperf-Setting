@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/power_mode_name"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="10sp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:cardElevation="1sp"
+        app:cardCornerRadius="15sp"
+        android:translationZ="2sp"
+
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/latencyTime"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/current_latencyTime"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_gravity="end"/>
+
+            </GridLayout>
+
+            <com.litao.slider.NiftySlider
+                android:id="@+id/slider_latencyTime"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:value="0"
+                android:valueFrom="0"
+                android:valueTo="1000"
+                app:trackColor="@color/main_theme_color"
+                app:trackColorInactive="@color/secondary_theme_color"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/slowLimitPower"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/current_slowLimitPower"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_gravity="end"/>
+
+            </GridLayout>
+
+            <com.litao.slider.NiftySlider
+                android:id="@+id/slider_slowLimitPower"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:value="5"
+                android:valueFrom="0.055"
+                android:valueTo="10"
+                app:trackColor="@color/main_theme_color"
+                app:trackColorInactive="@color/secondary_theme_color"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/fastLimitPower"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/current_fastLimitPower"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_gravity="end"/>
+
+            </GridLayout>
+
+            <com.litao.slider.NiftySlider
+                android:id="@+id/slider_fastLimitPower"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:value="5"
+                android:valueFrom="0.05"
+                android:valueTo="10"
+                app:trackColor="@color/main_theme_color"
+                app:trackColorInactive="@color/secondary_theme_color"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/fastLimitCapacity"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/current_fastLimitCapacity"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_gravity="end"/>
+
+            </GridLayout>
+
+            <com.litao.slider.NiftySlider
+                android:id="@+id/slider_fastLimitCapacity"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:value="0"
+                android:valueFrom="0"
+                android:valueTo="999"
+                app:trackColor="@color/main_theme_color"
+                app:trackColorInactive="@color/secondary_theme_color"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/cpu_margin"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/current_cpu_margin"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="10sp"
+                    android:layout_marginTop="10sp"
+
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_gravity="end"/>
+
+            </GridLayout>
+
+            <com.litao.slider.NiftySlider
+                android:id="@+id/slider_cpu_margin"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:value="0"
+                android:valueFrom="0"
+                android:valueTo="100"
+                app:trackColor="@color/main_theme_color"
+                app:trackColorInactive="@color/secondary_theme_color"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

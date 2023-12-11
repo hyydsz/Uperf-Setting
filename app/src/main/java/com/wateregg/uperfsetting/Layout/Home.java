@@ -66,8 +66,9 @@ public class Home extends Fragment {
         system_mode.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                auto_mode_settings.setVisibility(tab.getTag() == ModeString.AUTO ? View.VISIBLE : View.GONE);
-                ModeString.powerMode.SystemMode = tab.getTag().toString();
+                auto_mode_settings.setVisibility(tab.getTag() == ModeString.ModeType.auto ? View.VISIBLE : View.GONE);
+
+                ModeString.powerMode.SystemMode = (ModeString.ModeType) tab.getTag();
                 if (!ModeString.powerMode.WriteFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
                     ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
                     toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
@@ -88,7 +89,7 @@ public class Home extends Fragment {
         normal_mode.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ModeString.powerMode.DefaultMode = tab.getTag().toString();
+                ModeString.powerMode.DefaultMode = (ModeString.ModeType) tab.getTag();
                 if (!ModeString.powerMode.WriteFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
                     ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
                     toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
@@ -109,7 +110,7 @@ public class Home extends Fragment {
         standby_mode.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ModeString.powerMode.OffScreenMode = tab.getTag().toString();
+                ModeString.powerMode.OffScreenMode = (ModeString.ModeType) tab.getTag();
                 if (!ModeString.powerMode.WriteFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
                     ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
                     toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
@@ -177,9 +178,10 @@ public class Home extends Fragment {
         // 读取应用每个配置
         if (ModeString.powerMode.SystemMode != null) {
             int index = ModeString.FromModeToIndex(ModeString.powerMode.SystemMode);
-            if (index == -1) index = 0;
 
-            if (index == 0) {
+            if (index == 0 || index == -1) {
+                index = 0;
+
                 auto_mode_settings.setVisibility(View.VISIBLE);
             }
 
@@ -206,31 +208,31 @@ public class Home extends Fragment {
     public void addSystemSelectMode(TabLayout tabLayout) {
         TabLayout.Tab tab = tabLayout.newTab();
         tab.setText(getString(R.string.auto));
-        tab.setTag(ModeString.AUTO);
+        tab.setTag(ModeString.ModeType.auto);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.powersave));
-        tab.setTag(ModeString.POWERSAVE);
+        tab.setTag(ModeString.ModeType.powersave);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.balance));
-        tab.setTag(ModeString.BALANCE);
+        tab.setTag(ModeString.ModeType.balance);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.performance));
-        tab.setTag(ModeString.PERFORMANCE);
+        tab.setTag(ModeString.ModeType.performance);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.fast));
-        tab.setTag(ModeString.FAST);
+        tab.setTag(ModeString.ModeType.fast);
 
         tabLayout.addTab(tab);
     }
@@ -238,25 +240,25 @@ public class Home extends Fragment {
     public void addSelectMode(TabLayout tabLayout) {
         TabLayout.Tab tab = tabLayout.newTab();
         tab.setText(getString(R.string.powersave));
-        tab.setTag(ModeString.POWERSAVE);
+        tab.setTag(ModeString.ModeType.powersave);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.balance));
-        tab.setTag(ModeString.BALANCE);
+        tab.setTag(ModeString.ModeType.balance);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.performance));
-        tab.setTag(ModeString.PERFORMANCE);
+        tab.setTag(ModeString.ModeType.performance);
 
         tabLayout.addTab(tab);
 
         tab = tabLayout.newTab();
         tab.setText(getString(R.string.fast));
-        tab.setTag(ModeString.FAST);
+        tab.setTag(ModeString.ModeType.fast);
 
         tabLayout.addTab(tab);
     }
