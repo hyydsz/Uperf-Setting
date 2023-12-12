@@ -4,10 +4,10 @@
 
 ## 应用界面
 ### 主页
-![主页][image/Home.png]
+![主页][./image/Home.png]
 
 ### 应用
-![应用][image/AppSetting.png]
+![应用][./image/AppSetting.png]
 
 ### CPU策略
-![CPU策略][image/PowerSetting.png]
+![CPU策略][./image/PowerSetting.png]
