@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -35,9 +34,10 @@ import com.wateregg.uperfsetting.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppSettings extends Fragment {
+public class AppSettings extends Layout {
     private int package_filter_type = 0;
     private int mode_filter_type = 0;
+
     private RecyclerView recyclerView;
     private Editable SearchText;
 
@@ -188,14 +188,20 @@ public class AppSettings extends Fragment {
                     apps.add(app);
                 }
 
+                AppAdapter appAdapter = new AppAdapter(view.getContext(), apps);
 
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(() -> {
-                    recyclerView.setAdapter(new AppAdapter(view.getContext(), apps));
+                    recyclerView.setAdapter(appAdapter);
                     refreshLayout.setRefreshing(false);
                 });
             }
         }.start();
+    }
+
+    @Override
+    public void Background_Refresh() {
+
     }
 
     private class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
@@ -221,6 +227,7 @@ public class AppSettings extends Fragment {
             }
 
             apps = lists;
+
             notifyDataSetChanged();
         }
 

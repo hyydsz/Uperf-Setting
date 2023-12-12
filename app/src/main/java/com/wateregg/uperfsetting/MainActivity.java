@@ -1,6 +1,8 @@
 package com.wateregg.uperfsetting;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -15,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -23,7 +27,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.wateregg.uperfsetting.Dialog.ToastDialog;
 import com.wateregg.uperfsetting.Layout.AppSettings;
 import com.wateregg.uperfsetting.Layout.Home;
+import com.wateregg.uperfsetting.Layout.Layout;
 import com.wateregg.uperfsetting.Layout.Setting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public final static int STORAGE_REQUEST_CODE = 1;
@@ -33,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private TabLayoutMediator tabLayoutMediator;
+    private boolean is_background = false;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         ModeString.powerMode = new PowerMode();
         ModeString.Module_Enable = ModeString.powerMode.json_handle();
+
+        initBackgroundCallBack();
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R)
         {
@@ -78,30 +91,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.navigation_menu);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager2 viewPager2 = findViewById(R.id.container);
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager2 = findViewById(R.id.container);
 
         Class[] classes = { Home.class, AppSettings.class, Setting.class};
         String[] names = { getString(R.string.uperf_settings), getString(R.string.uperf_app_settings), getString(R.string.uperf_power_settings) };
         int[] icons = { R.mipmap.home, R.mipmap.app, R.mipmap.setting };
 
         viewPager2.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-        viewPager2.setAdapter(new FragmentStateAdapter(getSupportFragmentManager(), getLifecycle()) {
-            @NonNull
-            @Override
-            public Fragment createFragment(int position) {
-                try {
-                    return FragmentFactory.loadFragmentClass(classes[position].getClassLoader(), classes[position].getName()).newInstance();
-                } catch (IllegalAccessException | InstantiationException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            @Override
-            public int getItemCount() {
-                return classes.length;
-            }
-        });
+        viewPager2.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getLifecycle(), classes));
 
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
            tab.setIcon(icons[position]);
@@ -144,5 +142,85 @@ public class MainActivity extends AppCompatActivity {
         tabLayoutMediator.detach();
 
         super.onDestroy();
+    }
+
+    private void initBackgroundCallBack() {
+        registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+                if (is_background) {
+                    is_background = false;
+
+                    if (viewPager2 != null) {
+                        FragmentAdapter fragmentAdapter = (FragmentAdapter) viewPager2.getAdapter();
+                        fragmentAdapter.Refresh(tabLayout.getSelectedTabPosition());
+                    }
+                }
+            }
+
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+                is_background = true;
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+
+            }
+        });
+    }
+
+    private class FragmentAdapter extends FragmentStateAdapter {
+        private Class[] classes;
+        private List<Layout> layouts = new ArrayList<>();
+
+        public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, Class[] classes) {
+            super(fragmentManager, lifecycle);
+
+            this.classes = classes;
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            try {
+                Fragment fragment = FragmentFactory.loadFragmentClass(classes[position].getClassLoader(), classes[position].getName()).newInstance();
+                layouts.add((Layout) fragment);
+
+                return fragment;
+
+            } catch (IllegalAccessException | InstantiationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void Refresh(int position) {
+            layouts.get(position).Background_Refresh();
+        }
+
+        @Override
+        public int getItemCount() {
+            return classes.length;
+        }
     }
 }

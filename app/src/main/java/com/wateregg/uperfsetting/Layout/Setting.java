@@ -12,14 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.litao.slider.NiftySlider;
 import com.wateregg.uperfsetting.Dialog.ToastDialog;
 import com.wateregg.uperfsetting.ModeString;
-import com.wateregg.uperfsetting.PowerMode;
 import com.wateregg.uperfsetting.R;
 
 import org.json.JSONException;
@@ -31,16 +29,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import kotlin.Unit;
 
-public class Setting extends Fragment {
+public class Setting extends Layout {
     private JSONObject CPUSettingJson;
     private RecyclerView recyclerView;
+
+    private SwipeRefreshLayout refreshLayout;
+    private View view;
 
     private final String LATENCY_TIME = "cpu.latencyTime";
     private final String SLOW_LIMIT_POWER = "cpu.slowLimitPower";
@@ -52,17 +52,12 @@ public class Setting extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, container, false);
+        this.view = view;
 
         recyclerView = view.findViewById(R.id.power_mode_list);
 
-        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.power_setting_refresh);
-        refreshLayout.setOnRefreshListener(() -> {
-            if (recyclerView.getAdapter() != null) {
-                ((PowerAdapter) recyclerView.getAdapter()).clear();
-            }
-
-            Refresh(view, refreshLayout);
-        });
+        refreshLayout = view.findViewById(R.id.power_setting_refresh);
+        refreshLayout.setOnRefreshListener(this::Background_Refresh);
 
         refreshLayout.setRefreshing(true);
         Refresh(view, refreshLayout);
@@ -115,7 +110,17 @@ public class Setting extends Fragment {
                     refreshLayout.setRefreshing(false);
                 }, 100);
             }
+
         }.start();
+    }
+
+    @Override
+    public void Background_Refresh() {
+        if (recyclerView.getAdapter() != null) {
+            ((PowerAdapter) recyclerView.getAdapter()).clear();
+        }
+
+        Refresh(view, refreshLayout);
     }
 
     private class PowerAdapter extends RecyclerView.Adapter<PowerAdapter.ViewHolder> {

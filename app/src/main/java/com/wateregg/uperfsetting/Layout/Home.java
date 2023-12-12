@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.tabs.TabLayout;
@@ -21,29 +20,22 @@ import com.wateregg.uperfsetting.R;
 
 import org.json.JSONException;
 
-public class Home extends Fragment {
+public class Home extends Layout {
+    private SwipeRefreshLayout refreshLayout;
+    private View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home, container, false);
+        this.view = view;
 
         if (!ModeString.powerMode.ReadFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
             ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
             toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
         }
 
-        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.setting_refresh);
-        refreshLayout.setOnRefreshListener(() -> {
-            ModeString.Module_Enable = ModeString.powerMode.json_handle();
-            
-            if (!ModeString.powerMode.ReadFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
-                ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
-                toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
-            }
-
-            refreshMode(view);
-            refreshLayout.setRefreshing(false);
-        });
+        refreshLayout = view.findViewById(R.id.setting_refresh);
+        refreshLayout.setOnRefreshListener(this::Background_Refresh);
 
         TabLayout system_mode = view.findViewById(R.id.system_mode);
         TabLayout normal_mode = view.findViewById(R.id.normal_mode);
@@ -261,5 +253,18 @@ public class Home extends Fragment {
         tab.setTag(ModeString.ModeType.fast);
 
         tabLayout.addTab(tab);
+    }
+
+    @Override
+    public void Background_Refresh() {
+        ModeString.Module_Enable = ModeString.powerMode.json_handle();
+
+        if (!ModeString.powerMode.ReadFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
+            ToastDialog toastDialog = new ToastDialog(getString(R.string.read_file_fail));
+            toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
+        }
+
+        refreshMode(view);
+        refreshLayout.setRefreshing(false);
     }
 }
