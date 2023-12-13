@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.TypedValue;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,31 +27,65 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.wateregg.uperfsetting.Data.Data;
+import com.wateregg.uperfsetting.Dialog.SettingDialog;
 import com.wateregg.uperfsetting.Dialog.ToastDialog;
 import com.wateregg.uperfsetting.Layout.AppSettings;
 import com.wateregg.uperfsetting.Layout.Home;
 import com.wateregg.uperfsetting.Layout.Layout;
 import com.wateregg.uperfsetting.Layout.Setting;
+import com.wateregg.uperfsetting.Sliders.SliderTheme;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public final static int STORAGE_REQUEST_CODE = 1;
-    public final String[] Read_Write_Permissions = new String[] {
+    public final static String[] Read_Write_Permissions = new String[] {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
     private TabLayoutMediator tabLayoutMediator;
     private boolean is_background = false;
+
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
+
+    public static Runnable RestartActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Data", MODE_PRIVATE);
+
+        String color = sharedPreferences.getString("Color", SettingDialog.Colors.Blue.name());
+        switch (SettingDialog.Colors.valueOf(color)) {
+            case Blue -> setTheme(R.style.UperfSetting_Blue);
+            case Orange -> setTheme(R.style.UperfSetting_Orange);
+            case Yellow -> setTheme(R.style.UperfSetting_Yellow);
+            case Green -> setTheme(R.style.UperfSetting_Green);
+            case Red -> setTheme(R.style.UperfSetting_Red);
+        }
+
+        Data.MainThemeName = SettingDialog.Colors.valueOf(color);
+
+        TypedValue typedValue =  new TypedValue();
+        getTheme().resolveAttribute(R.attr.main_theme_color, typedValue, true);
+        Data.MainColor = typedValue.data;
+
+        String slider_theme = sharedPreferences.getString("SliderTheme", SettingDialog.SliderThemes.Normal.name());
+        Data.MainSliderTheme = SettingDialog.SliderThemes.valueOf(slider_theme);
+
+        RestartActivity = () -> {
+            Intent intent = getIntent();
+            finish();
+
+            startActivity(intent);
+        };
 
         ModeString.powerMode = new PowerMode();
         ModeString.Module_Enable = ModeString.powerMode.json_handle();
@@ -132,6 +169,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+        });
+
+        Button setting = findViewById(R.id.home_open_setting);
+        setting.setOnClickListener(v -> {
+            SettingDialog settingDialog = new SettingDialog();
+            settingDialog.show(getSupportFragmentManager(), settingDialog.getTag());
         });
 
         tabLayoutMediator.attach();

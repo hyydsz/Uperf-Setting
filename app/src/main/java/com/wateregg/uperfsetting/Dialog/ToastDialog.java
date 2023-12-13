@@ -43,7 +43,7 @@ public class ToastDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(requireContext(), R.style.base_mode_select);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.mode_select);
+        dialog.setContentView(R.layout.toast_dialog);
 
         return dialog;
     }

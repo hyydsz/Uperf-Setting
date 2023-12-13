@@ -70,9 +70,7 @@
                 android:layout_height="wrap_content"
                 android:value="0"
                 android:valueFrom="0"
-                android:valueTo="1000"
-                app:trackColor="@color/main_theme_color"
-                app:trackColorInactive="@color/secondary_theme_color"/>
+                android:valueTo="1000" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -111,9 +109,7 @@
                 android:layout_height="wrap_content"
                 android:value="5"
                 android:valueFrom="0.055"
-                android:valueTo="10"
-                app:trackColor="@color/main_theme_color"
-                app:trackColorInactive="@color/secondary_theme_color"/>
+                android:valueTo="10" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -152,9 +148,7 @@
                 android:layout_height="wrap_content"
                 android:value="5"
                 android:valueFrom="0.05"
-                android:valueTo="10"
-                app:trackColor="@color/main_theme_color"
-                app:trackColorInactive="@color/secondary_theme_color"/>
+                android:valueTo="10" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -193,9 +187,7 @@
                 android:layout_height="wrap_content"
                 android:value="0"
                 android:valueFrom="0"
-                android:valueTo="999"
-                app:trackColor="@color/main_theme_color"
-                app:trackColorInactive="@color/secondary_theme_color"/>
+                android:valueTo="999" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -234,9 +226,7 @@
                 android:layout_height="wrap_content"
                 android:value="0"
                 android:valueFrom="0"
-                android:valueTo="100"
-                app:trackColor="@color/main_theme_color"
-                app:trackColorInactive="@color/secondary_theme_color"/>
+                android:valueTo="100" />
 
         </LinearLayout>
 

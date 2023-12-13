@@ -249,26 +249,31 @@ public class AppSettings extends Layout {
                 case powersave:
                     holder.app_mode.setText(context.getString(R.string.powersave_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.powersave_color));
+
                     break;
 
                 case balance:
                     holder.app_mode.setText(context.getString(R.string.balance_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.balance_color));
+
                     break;
 
                 case performance:
                     holder.app_mode.setText(context.getString(R.string.performance_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.performance_color));
+
                     break;
 
                 case fast:
                     holder.app_mode.setText(context.getString(R.string.fast_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.fast_color));
+
                     break;
 
                 case system_normal:
                     holder.app_mode.setText(context.getString(R.string.system_normal_mode));
                     holder.app_mode.setTextColor(context.getColor(R.color.system_normal_color));
+
                     break;
             }
 

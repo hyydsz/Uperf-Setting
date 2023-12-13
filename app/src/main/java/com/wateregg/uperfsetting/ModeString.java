@@ -16,6 +16,7 @@ public class ModeString {
     public static boolean Module_Enable = false;
 
     // 这个需要跟App设置的五个模式顺序一样
+    // 具体与ModeSelect.java:43的for循环有关
     public enum ModeType {
         system_normal,
         powersave,
@@ -26,24 +27,13 @@ public class ModeString {
     }
 
     public static int FromModeToIndex(ModeType current_mode) {
-        switch (current_mode) {
-            case auto:
-                return 0;
-
-            case powersave:
-                return 1;
-
-            case balance:
-                return 2;
-
-            case performance:
-                return 3;
-
-            case fast:
-                return 4;
-
-            default:
-                return -1;
-        }
+        return switch (current_mode) {
+            case auto -> 0;
+            case powersave -> 1;
+            case balance -> 2;
+            case performance -> 3;
+            case fast -> 4;
+            default -> -1;
+        };
     }
 }

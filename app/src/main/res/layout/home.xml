@@ -110,7 +110,7 @@
                         app:tabIndicator="@drawable/tab_indicator"
                         app:tabIndicatorHeight="50sp"
 
-                        app:tabIndicatorColor="@color/main_theme_color"
+                        app:tabIndicatorColor="?attr/main_theme_color"
 
                         android:background="@drawable/stroke_round"
 
@@ -144,7 +144,7 @@
                             app:tabIndicator="@drawable/tab_indicator"
                             app:tabIndicatorHeight="50dp"
 
-                            app:tabIndicatorColor="@color/main_theme_color"
+                            app:tabIndicatorColor="?attr/main_theme_color"
 
                             android:background="@drawable/stroke_round"
 
@@ -171,7 +171,7 @@
                             app:tabIndicator="@drawable/tab_indicator"
                             app:tabIndicatorHeight="50dp"
 
-                            app:tabIndicatorColor="@color/main_theme_color"
+                            app:tabIndicatorColor="?attr/main_theme_color"
 
                             android:background="@drawable/stroke_round"
 

@@ -19,6 +19,7 @@ import com.litao.slider.NiftySlider;
 import com.wateregg.uperfsetting.Dialog.ToastDialog;
 import com.wateregg.uperfsetting.ModeString;
 import com.wateregg.uperfsetting.R;
+import com.wateregg.uperfsetting.Sliders.SliderTheme;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -164,6 +165,12 @@ public class Setting extends Layout {
             holder.slider_fastLimitPower.addOnSliderTouchStopListener(niftySlider -> power_save(holder, power.power_type));
             holder.slider_fastLimitCapacity.addOnSliderTouchStopListener(niftySlider -> power_save(holder, power.power_type));
             holder.slider_cpu_margin.addOnSliderTouchStopListener(niftySlider -> power_save(holder, power.power_type));
+
+            SliderTheme.Companion.addSliderTheme(holder.slider_latencyTime);
+            SliderTheme.Companion.addSliderTheme(holder.slider_slowLimitPower);
+            SliderTheme.Companion.addSliderTheme(holder.slider_fastLimitPower);
+            SliderTheme.Companion.addSliderTheme(holder.slider_fastLimitCapacity);
+            SliderTheme.Companion.addSliderTheme(holder.slider_cpu_margin);
         }
 
         private Unit power_update(ViewHolder holder) {

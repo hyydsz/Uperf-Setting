@@ -54,4 +54,15 @@
     <string name="unit_power">%.1f w</string>
     <string name="unit_percent">%.0f %%</string>
     <string name="unit_power_s">%.0f ws</string>
+
+    <string name="main_color">主要颜色</string>
+    <string name="color_blue">皇室蓝</string>
+    <string name="color_orange">橘子橙</string>
+    <string name="color_yellow">阳光黄</string>
+    <string name="color_green">自然绿</string>
+    <string name="color_red">姨妈红</string>
+
+    <string name="slider_theme">滑动条样式</string>
+    <string name="slider_normal">默认</string>
+    <string name="slider_bilibili">哔哩哔哩</string>
 </resources>

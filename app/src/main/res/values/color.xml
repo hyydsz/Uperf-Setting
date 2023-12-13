@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_theme_color">#2196F3</color>
-    <color name="secondary_theme_color">#BFE3FF</color>
+    <attr name="main_theme_color" format="color"/>
+
+    <color name="blue_theme">#2196F3</color>
+    <color name="orange_theme">#FF5722</color>
+    <color name="yellow_theme">#FFC107</color>
+    <color name="green_theme">#4CAF50</color>
+    <color name="red_theme">#E91E1E</color>
 
     <color name="powersave_color">#FF506496</color>
     <color name="balance_color">#FF50C8C8</color>

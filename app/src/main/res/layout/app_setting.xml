@@ -41,7 +41,7 @@
                     android:layout_column="0"
                     android:layout_columnWeight="1"
 
-                    android:backgroundTint="@color/main_theme_color"
+                    android:backgroundTint="?attr/main_theme_color"
 
                     android:layout_height="wrap_content"
                     android:autofillHints="" />

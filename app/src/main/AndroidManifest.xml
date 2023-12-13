@@ -15,7 +15,7 @@
         android:icon="@mipmap/launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UperfSetting"
+        android:theme="@style/UperfSetting.Blue"
         android:requestLegacyExternalStorage="true">
         
         <activity android:name=".MainActivity"
