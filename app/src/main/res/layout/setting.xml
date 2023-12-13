@@ -15,6 +15,92 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginEnd="20sp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:cardElevation="3sp"
+            app:cardCornerRadius="15sp"
+            android:translationZ="1sp"
+
+            android:forceHasOverlappingRendering="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="10sp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/power_share"/>
+
+                <GridLayout
+                    android:layout_marginStart="10sp"
+                    android:layout_marginEnd="10sp"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:columnCount="3"
+
+                    android:layout_gravity="center">
+
+                    <EditText
+                        android:id="@+id/power_setting_input"
+
+                        android:maxEms="20"
+
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+
+                        android:backgroundTint="?attr/main_theme_color"
+                        android:textCursorDrawable="@drawable/textcursor"
+
+                        android:maxLines="3"
+                        android:autofillHints=""
+
+                        android:layout_gravity="bottom"/>
+
+                    <Button
+                        android:id="@+id/power_setting_paste"
+
+                        android:layout_margin="5sp"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/round_button"
+                        android:text="@string/ok"
+                        android:textColor="@android:color/white"
+
+                        android:layout_columnWeight="0.02"/>
+
+                    <Button
+                        android:id="@+id/power_setting_copy"
+
+                        android:layout_margin="5sp"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/round_button"
+                        android:text="@string/copy"
+                        android:textColor="@android:color/white"
+
+                        android:layout_columnWeight="0.02"/>
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_margin="20sp"
 
             android:layout_width="match_parent"
@@ -27,9 +113,9 @@
             android:forceHasOverlappingRendering="false">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/power_mode_list"
+                android:layout_margin="5sp"
 
-                android:layout_margin="10sp"
+                android:id="@+id/power_mode_list"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

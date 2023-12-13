@@ -45,6 +45,13 @@ public class ToastDialog extends DialogFragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.toast_dialog);
 
+        Window window = dialog.getWindow();
+        if (window != null) {
+            int width = getResources().getDisplayMetrics().widthPixels;
+
+            window.setLayout(width / 3, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
         return dialog;
     }
 }

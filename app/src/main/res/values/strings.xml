@@ -65,4 +65,13 @@
     <string name="slider_theme">滑动条样式</string>
     <string name="slider_normal">默认</string>
     <string name="slider_bilibili">哔哩哔哩</string>
+
+    <string name="copy">复制</string>
+    <string name="copy_success">复制成功</string>
+    <string name="copy_fail">复制失败</string>
+
+    <string name="parse_fail">解析失败</string>
+    <string name="parse_success">解析成功</string>
+
+    <string name="power_share">配置粘贴</string>
 </resources>

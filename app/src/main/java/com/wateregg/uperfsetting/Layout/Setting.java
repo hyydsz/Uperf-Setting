@@ -1,6 +1,9 @@
 package com.wateregg.uperfsetting.Layout;
 
 import android.annotation.SuppressLint;
+import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,7 +11,10 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +36,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,13 +68,65 @@ public class Setting extends Layout {
         refreshLayout = view.findViewById(R.id.power_setting_refresh);
         refreshLayout.setOnRefreshListener(this::Background_Refresh);
 
+        InitConfigCopy(view);
+
         refreshLayout.setRefreshing(true);
-        Refresh(view, refreshLayout);
+        Refresh(view);
 
         return view;
     }
 
-    private void Refresh(View view, SwipeRefreshLayout refreshLayout) {
+    private void InitConfigCopy(View view) {
+        Button copy = view.findViewById(R.id.power_setting_copy);
+        copy.setOnClickListener(v -> {
+            try {
+                JSONObject presets = CPUSettingJson.getJSONObject("presets");
+
+                byte[] bytes = presets.toString().getBytes(StandardCharsets.UTF_8);
+                String bytes_to_base64 = Base64.getEncoder().encodeToString(bytes);
+
+                ClipboardManager clipboardManager = (ClipboardManager) view.getContext().getSystemService(Service.CLIPBOARD_SERVICE);
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("PowerData", bytes_to_base64));
+
+                Toast.makeText(view.getContext(), view.getContext().getString(R.string.copy_success), Toast.LENGTH_LONG).show();
+            }
+            catch (JSONException | NullPointerException ignore) {
+                ToastDialog toastDialog = new ToastDialog(view.getContext().getString(R.string.copy_fail));
+                toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
+            }
+        });
+
+        Button paste = view.findViewById(R.id.power_setting_paste);
+        paste.setOnClickListener(v -> {
+            EditText editText = view.findViewById(R.id.power_setting_input);
+            if (!editText.getText().toString().isEmpty()) {
+                try {
+                    byte[] base64_to_bytes = Base64.getDecoder().decode(editText.getText().toString());
+                    String bytes_to_string = new String(base64_to_bytes, StandardCharsets.UTF_8);
+
+                    JSONObject parse_json = new JSONObject(bytes_to_string);
+
+                    CPUSettingJson.put("presets", parse_json);
+
+                    File file = new File(ModeString.uperf_last_path, ModeString.UPERF_JSON);
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+                    bufferedWriter.write(CPUSettingJson.toString(2));
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+
+                    Background_Refresh();
+
+                    Toast.makeText(view.getContext(), view.getContext().getString(R.string.parse_success), Toast.LENGTH_LONG).show();
+                }
+                catch (IllegalArgumentException | JSONException | IOException ignore) {
+                    ToastDialog toastDialog = new ToastDialog(view.getContext().getString(R.string.parse_fail));
+                    toastDialog.show(getParentFragmentManager(), toastDialog.getTag());
+                }
+            }
+        });
+    }
+
+    private void Refresh(View view) {
         new Thread() {
             @Override
             public void run() {
@@ -121,7 +181,7 @@ public class Setting extends Layout {
             ((PowerAdapter) recyclerView.getAdapter()).clear();
         }
 
-        Refresh(view, refreshLayout);
+        Refresh(view);
     }
 
     private class PowerAdapter extends RecyclerView.Adapter<PowerAdapter.ViewHolder> {

@@ -17,7 +17,7 @@
     <Button
         android:id="@+id/toast_dialog_ok"
 
-        android:layout_margin="15sp"
+        android:layout_margin="10sp"
 
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

@@ -44,6 +44,7 @@ public class PowerMode {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
+
                     if (line.startsWith("#")) continue;
 
                     if (line.startsWith("*")) {
@@ -95,6 +96,14 @@ public class PowerMode {
             catch (IOException ignore) { }
 
             StringBuilder sb = new StringBuilder();
+
+            sb.append(
+                      "# 分应用性能模式配置\n" +
+                      "# Per-app dynamic power mode rule\n" +
+                      "# '-' means offscreen rule\n" +
+                      "# '*' means default rule\n\n"
+            );
+
             appModes.forEach((s, s2) -> {
                 sb.append(s);
                 sb.append(" ");

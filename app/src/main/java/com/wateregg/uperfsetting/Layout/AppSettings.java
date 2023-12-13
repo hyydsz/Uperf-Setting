@@ -41,6 +41,8 @@ public class AppSettings extends Layout {
     private RecyclerView recyclerView;
     private Editable SearchText;
 
+    private SwipeRefreshLayout refreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,25 +50,34 @@ public class AppSettings extends Layout {
 
         recyclerView = view.findViewById(R.id.app_list);
 
-        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.app_refresh);
+        refreshLayout = view.findViewById(R.id.app_refresh);
         refreshLayout.setOnRefreshListener(() -> {
             if (!ModeString.powerMode.ReadFile(ModeString.uperf_last_path, ModeString.PERAPP_POWERMODE)) {
                 Toast.makeText(view.getContext(), "读取应用配置失败", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            RefreshAppList(view, refreshLayout);
+            RefreshAppList(view);
         });
 
+        InitSearchBar(view);
+
+        return view;
+    }
+
+    private void InitSearchBar(View view) {
         Spinner package_spinner = view.findViewById(R.id.package_type);
-        package_spinner.setAdapter(new ArrayAdapter<>(view.getContext(), R.layout.simple_spinner_item, R.id.spinner_text, new String[] {getString(R.string.user), getString(R.string.system), getString(R.string.all)}));
+        package_spinner.setAdapter(new ArrayAdapter<>(view.getContext(), R.layout.simple_spinner_item, R.id.spinner_text, new String[] {
+                getString(R.string.user),
+                getString(R.string.system),
+                getString(R.string.all)}));
         package_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view_, int position, long id) {
                 package_filter_type = position;
                 refreshLayout.setRefreshing(true);
 
-                RefreshAppList(view, refreshLayout);
+                RefreshAppList(view);
             }
 
             @Override
@@ -90,7 +101,7 @@ public class AppSettings extends Layout {
                 mode_filter_type = position;
                 refreshLayout.setRefreshing(true);
 
-                RefreshAppList(view, refreshLayout);
+                RefreshAppList(view);
             }
 
             @Override
@@ -121,11 +132,9 @@ public class AppSettings extends Layout {
                 }
             }
         });
-
-        return view;
     }
 
-    private void RefreshAppList(View view, SwipeRefreshLayout refreshLayout) {
+    private void RefreshAppList(View view) {
         new Thread() {
             @Override
             public void run() {
