@@ -1,4 +1,4 @@
-# UperfSetting
+ # UperfSetting
 
 用于控制[Uperf](https://github.com/yc9559/uperf)的手机应用    
 
@@ -14,6 +14,3 @@ PS: 我觉得不如直接用Scene (
 
 ### 应用
 ![应用](image/AppSetting.png)
-
-### CPU策略
-![CPU策略](image/PowerSetting.png)
